@@ -60,21 +60,21 @@ class LimeBase(object):
         """Selects features for the model. see explain_instance_with_data to
            understand the parameters."""
         if method == 'none':
-            return np.array(range(data.shape[1]))
+            return np.array(list(range(data.shape[1])))
         elif method == 'forward_selection':
             return self.forward_selection(data, labels, weights, num_features)
         elif method == 'highest_weights':
             clf = linear_model.Ridge(alpha=0, fit_intercept=True)
             clf.fit(data, labels, sample_weight=weights)
-            feature_weights = sorted(zip(range(data.shape[0]), clf.coef_),
+            feature_weights = sorted(zip(list(range(data.shape[0])), clf.coef_),
                                      key=lambda x: np.abs(x[1]),
                                      reverse=True)
             return np.array([x[0] for x in feature_weights[:num_features]])
         elif method == 'lasso_path':
             weighted_data = (data - np.average(data, axis=0, weights=weights)) * np.sqrt(weights[:, np.newaxis])
             weighted_labels = (labels - np.average(labels, weights=weights)) * np.sqrt(weights)
-            used_features = range(weighted_data.shape[1])
-            nonzero = range(weighted_data.shape[1])
+            used_features = list(range(weighted_data.shape[1]))
+            nonzero = list(range(weighted_data.shape[1]))
             _, coefs = self.generate_lars_path(weighted_data,
                                                weighted_labels)
             for i in range(len(coefs.T) - 1, 0, -1):

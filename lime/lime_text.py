@@ -232,7 +232,7 @@ class LimeTextExplainer(object):
         sample = np.random.randint(1, doc_size, num_samples - 1)
         data = np.ones((num_samples, doc_size))
         data[0] = np.ones(doc_size)
-        features_range = range(doc_size)
+        features_range = list(range(doc_size))
         inverse_data = [indexed_string.raw_string()]
         for i, size in enumerate(sample, start=1):
             inactive = np.random.choice(features_range, size, replace=False)

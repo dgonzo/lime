@@ -33,7 +33,7 @@ class Explanation(object):
         """Returns the list of labels for which we have any explanations."""
         if self.top_labels:
             return self.top_labels
-        return self.local_exp.keys()
+        return list(self.local_exp.keys())
     def as_list(self, label=1, positions=False):
         """Returns the explanation as a list.
 
